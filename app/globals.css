@@ -1,26 +1,214 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #ffffff;
+  --surface: #f2f4f5;
+  --ink: #000000;
+  --muted: #5a6065;
+  --accent: #00f0ff;
+  --accent-ink: #000000;
+  --field-1: #d2d6d9;
+  --field-1-ink: #000000;
+  --field-2: #00f0ff;
+  --field-2-ink: #000000;
+  --field-3: #0a0a0a;
+  --field-3-ink: #ffffff;
+  --field-4: #000000;
+  --field-4-ink: #ffffff;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --font-sans: var(--font-jost), system-ui, -apple-system, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  overflow-x: clip;
+}
+
+/* Signature masked headline rise */
+@keyframes mask-rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.mask-line {
+  display: block;
+  overflow: hidden;
+}
+
+.mask-line > span {
+  display: block;
+  animation: mask-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mask-line-delay > span {
+  animation-delay: 110ms;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-up {
+  animation: fade-up 720ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both;
+}
+
+/* Kinetic VSL beat entrance when subtitles advance */
+@keyframes beat-snap {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.vsl-beat-enter {
+  animation: beat-snap 440ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Electric cyan pulse ring on paused Play button */
+@keyframes cyan-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.65);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(0, 240, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 240, 255, 0);
+  }
+}
+
+.vf-play-pulse {
+  animation: cyan-pulse 2.1s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* Floating dock entrance */
+.vf-dock-enter {
+  animation: fade-up 340ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Pro button micro-interaction */
+.vf-btn-pro {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+.vf-btn-pro:hover {
+  transform: translateY(-2px);
+}
+
+.vf-btn-pro:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Proof marquee */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 36s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Subtle Ken Burns for VSL canvas imagery */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate3d(-1.4%, -0.8%, 0);
+  }
+}
+
+.vsl-ken-burns {
+  animation: ken-burns 14s ease-out infinite alternate;
+}
+
+/* Equalizer bars for VSL audio indicator */
+@keyframes eq-bar {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.eq-bar-1 {
+  animation: eq-bar 620ms ease-in-out infinite;
+}
+.eq-bar-2 {
+  animation: eq-bar 480ms ease-in-out 120ms infinite;
+}
+.eq-bar-3 {
+  animation: eq-bar 720ms ease-in-out 240ms infinite;
+}
+.eq-bar-4 {
+  animation: eq-bar 540ms ease-in-out 80ms infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mask-line > span,
+  .hero-fade-up,
+  .vsl-beat-enter,
+  .vf-play-pulse,
+  .vf-dock-enter,
+  .marquee-track,
+  .vsl-ken-burns,
+  .eq-bar-1,
+  .eq-bar-2,
+  .eq-bar-3,
+  .eq-bar-4 {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Accessible native dialog backdrop */
+dialog.vf-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+dialog.vf-dialog[open] {
+  animation: fade-up 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
