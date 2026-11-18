@@ -10,9 +10,18 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Vital Fit — El Método de 90 Días & Próxima Sede Física",
+  metadataBase: new URL("https://vitalfit-app.vercel.app"),
+  title: "Vital Fit Labs — Transformación de 90 Días",
   description:
-    "Mira el video que explica por qué el gimnasio tradicional falla y cómo el sistema Vital Fit transforma tu cuerpo con 3 sesiones semanales de 45 minutos. Reserva tu Pase Fundador.",
+    "Mira el video: por qué 8 de cada 10 personas abandonan el gimnasio y cómo Vital Fit Labs te acompaña 90 días con 3 entrenadores. Agenda tu llamada gratis.",
+  openGraph: {
+    title: "Vital Fit Labs — Transformación de 90 Días",
+    description:
+      "Por qué 8 de cada 10 abandonan el gimnasio y cómo lo resolvemos. Agenda tu llamada gratis.",
+    siteName: "Vital Fit",
+    locale: "es_CO",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
