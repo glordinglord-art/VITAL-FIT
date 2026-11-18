@@ -45,6 +45,7 @@ function getActiveChapterAndBeat(currentTime: number): {
 export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -147,11 +148,32 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
     setSpeed((prev) => (prev === 1 ? 1.25 : prev === 1.25 ? 1.5 : 1));
   };
 
+  const goFullscreen = () => {
+    const video = videoRef.current as
+      | (HTMLVideoElement & { webkitEnterFullscreen?: () => void })
+      | null;
+    const frame = frameRef.current;
+    if (video && typeof video.webkitEnterFullscreen === "function" && !document.fullscreenEnabled) {
+      // iOS Safari: native fullscreen only works on the <video> element
+      video.webkitEnterFullscreen();
+      return;
+    }
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+      return;
+    }
+    if (video && window.matchMedia("(max-width: 640px)").matches) {
+      video.requestFullscreen?.();
+    } else {
+      frame?.requestFullscreen?.();
+    }
+  };
+
   return (
     <>
       <div ref={stageRef} className="w-full">
         {/* 16:9 VSL Cinema Frame */}
-        <div className="relative w-full aspect-video bg-[#0d0d0d] overflow-hidden border border-[#262626]">
+        <div ref={frameRef} className="relative w-full aspect-video bg-[#0d0d0d] overflow-hidden border border-[#262626]">
           {VSL_VIDEO_URL ? (
             <video
               ref={videoRef}
@@ -192,10 +214,10 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
           )}
 
           {/* Top HUD inside player */}
-          <div className="absolute top-0 inset-x-0 flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 z-20 pointer-events-none">
+          <div className="absolute top-0 inset-x-0 flex items-center justify-between px-2.5 py-2 sm:px-6 sm:py-4 z-20 pointer-events-none">
             <div className="flex items-center gap-3">
               <span
-                className="inline-block px-2.5 py-1 text-[13px] font-bold uppercase tracking-wider text-[#000000]"
+                className="inline-block px-2 py-0.5 sm:px-2.5 sm:py-1 text-[11px] sm:text-[13px] font-bold uppercase tracking-wider text-[#000000]"
                 style={{ backgroundColor: chapter.accentColor }}
               >
                 {chapter.code}
@@ -205,10 +227,10 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
               </span>
             </div>
 
-            <div className="flex items-center gap-2 pointer-events-auto">
+            <div className="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
               {/* Audio Waveform Indicator */}
               <div
-                className="flex items-end gap-[3px] h-4 px-2"
+                className="hidden sm:flex items-end gap-[3px] h-4 px-2"
                 aria-hidden="true"
               >
                 <span
@@ -236,7 +258,7 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
               <button
                 type="button"
                 onClick={cycleSpeed}
-                className="h-8 px-2.5 bg-[#000000]/80 text-[#ffffff] text-[13px] font-bold border border-[#ffffff]/25 hover:border-[#00f0ff] transition-colors cursor-pointer"
+                className="h-7 sm:h-8 px-2 sm:px-2.5 bg-[#000000]/80 text-[#ffffff] text-[12px] sm:text-[13px] font-bold border border-[#ffffff]/25 hover:border-[#00f0ff] transition-colors cursor-pointer"
                 aria-label={`Velocidad de reproducción ${speed}x`}
               >
                 {speed}x
@@ -245,10 +267,22 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
               <button
                 type="button"
                 onClick={() => setIsMuted((m) => !m)}
-                className="h-8 px-2.5 bg-[#000000]/80 text-[#ffffff] text-[13px] font-medium border border-[#ffffff]/25 hover:border-[#00f0ff] transition-colors cursor-pointer"
+                className="h-7 sm:h-8 px-2 sm:px-2.5 bg-[#000000]/80 text-[#ffffff] text-[12px] sm:text-[13px] font-medium border border-[#ffffff]/25 hover:border-[#00f0ff] transition-colors cursor-pointer"
                 aria-label={isMuted ? "Activar sonido" : "Silenciar"}
               >
-                {isMuted ? "SIN AUDIO" : "AUDIO ON"}
+                {isMuted ? "🔇" : "🔊"}
+                <span className="hidden sm:inline ml-1">{isMuted ? "SIN AUDIO" : "AUDIO ON"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={goFullscreen}
+                className="h-7 sm:h-8 px-2 sm:px-2.5 bg-[#000000]/80 text-[#ffffff] border border-[#ffffff]/25 hover:border-[#00f0ff] transition-colors cursor-pointer flex items-center"
+                aria-label="Pantalla completa"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                  <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+                </svg>
               </button>
             </div>
           </div>
@@ -308,9 +342,10 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
               </div>
             )}
           </div>
+        </div>
 
-          {/* Bottom Scrubber & Controls */}
-          <div className="absolute bottom-0 inset-x-0 z-20 bg-[#000000]/85 px-4 py-3 sm:px-6">
+        {/* Bottom Scrubber & Controls (below the video so it never covers it on mobile) */}
+        <div className="bg-[#000000] border-x border-b border-[#262626] px-3 py-3 sm:px-6">
             <div
               onClick={handleScrub}
               role="slider"
@@ -319,7 +354,7 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
               aria-valuemax={Math.floor(duration)}
               aria-valuenow={Math.floor(currentTime)}
               tabIndex={0}
-              className="w-full h-2.5 bg-[#333333] cursor-pointer mb-2.5 relative"
+              className="w-full h-3 sm:h-2.5 bg-[#333333] cursor-pointer mb-2.5 relative touch-manipulation"
             >
               <div
                 className="h-full bg-[#00f0ff] transition-[width] duration-150"
@@ -357,11 +392,10 @@ export default function VslPlayer({ onOpenReservation }: VslPlayerProps) {
                 onClick={onOpenReservation}
                 className="px-3.5 py-1.5 bg-[#00f0ff] text-[#000000] font-bold uppercase text-[13px] tracking-wide hover:bg-[#ffffff] transition-colors cursor-pointer"
               >
-                Reservar Pase Fundador
+                Agendar mi llamada
               </button>
             </div>
           </div>
-        </div>
 
         {/* 4 Interactive Chapter Tabs below Video */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 mt-3">

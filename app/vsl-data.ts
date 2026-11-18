@@ -17,17 +17,24 @@ export interface VslChapter {
   beats: VslBeat[];
 }
 
-export const VSL_TOTAL_SECONDS = 160;
+export const VSL_TOTAL_SECONDS = 188;
+
+// WhatsApp de Vital Fit para agendar llamadas
+export const WHATSAPP_NUMBER = "573224176536";
+export const WHATSAPP_DISPLAY = "+57 322 417 6536";
+export const buildWhatsAppUrl = (message: string) =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
 // Local MP4 served from public/video/vitalfit-vsl.mp4
 export const VSL_VIDEO_URL: string | null = "/video/vitalfit-vsl.mp4";
 
+// Capítulos sincronizados con lo que se dice en el video (transcripción real)
 export const VSL_CHAPTERS: VslChapter[] = [
   {
     id: "problema",
     code: "CAPÍTULO I",
-    title: "Por qué 8 de cada 10 abandonan el gimnasio",
-    durationSeconds: 60,
+    title: "8 de cada 10 abandonan el gimnasio en 3 meses",
+    durationSeconds: 61,
     startSeconds: 0,
     image: "/images/gym-hero-vsl.jpg",
     imageAlt: "Sala de entrenamiento minimalista con barra olímpica bajo luz cenital",
@@ -36,61 +43,61 @@ export const VSL_CHAPTERS: VslChapter[] = [
       {
         atSeconds: 0,
         headline: "8 DE CADA 10 ABANDONAN ANTES DE LOS 3 MESES.",
-        caption: "Entran con ilusión, abandonan a la segunda o tercera semana y pierden dinero, tiempo y confianza en su palabra.",
-        emphasis: "No es un problema de carácter.",
+        caption: "No lo sacamos de internet: lo hemos visto en nuestros años como entrenadores deportivos.",
+        emphasis: "El ciclo de la frustración.",
       },
       {
-        atSeconds: 30,
-        headline: "EL PROBLEMA ES EL MODELO DEL GIMNASIO TRADICIONAL.",
-        caption: "Te prestan máquinas, te dan una rutina genérica y entrenas sin objetivos ni seguimiento real.",
-        emphasis: "La receta perfecta para la frustración.",
+        atSeconds: 36,
+        headline: "NO SOLO PIERDES DINERO. PIERDES TIEMPO Y CONFIANZA.",
+        caption: "Cada vez que te prometes cambiar y no lo haces, tu palabra pierde valor y te alejas de la persona que te prometiste ser.",
+        emphasis: "Y eso golpea tu confianza.",
       },
     ],
   },
   {
-    id: "metodo",
+    id: "modelo",
     code: "CAPÍTULO II",
-    title: "Vital Fit Labs: 90 días y tres pilares",
-    durationSeconds: 30,
-    startSeconds: 60,
+    title: "No es tu carácter: es el modelo del gimnasio",
+    durationSeconds: 36,
+    startSeconds: 61,
     image: "/images/gym-coaching.jpg",
     imageAlt: "Entrenador corrigiendo la postura de un atleta durante levantamiento de fuerza",
     accentColor: "#00f0ff",
     beats: [
       {
-        atSeconds: 60,
-        headline: "UN PROGRAMA DE TRANSFORMACIÓN DE 90 DÍAS.",
-        caption: "Integramos tres pilares: entrenamiento, recuperación y alimentación en un solo sistema.",
-        emphasis: "Plataforma tecnológica + acompañamiento real.",
+        atSeconds: 61,
+        headline: "MÁQUINAS PRESTADAS Y UNA RUTINA GENÉRICA.",
+        caption: "Mueves peso por inercia, cargas por ego y entrenas sin objetivos.",
+        emphasis: "La receta perfecta para la frustración.",
       },
       {
-        atSeconds: 75,
-        headline: "DECISIONES BASADAS EN TU AVANCE.",
-        caption: "Nuestros entrenadores siguen tu progreso de cerca para tomar las mejores decisiones hacia tus objetivos.",
-        emphasis: "Cero improvisación.",
+        atSeconds: 82,
+        headline: "SIN OBJETIVO CLARO NI SEGUIMIENTO.",
+        caption: "Personas entrenando sin sentido y sin un seguimiento que les permita avanzar.",
+        emphasis: "Así nadie progresa.",
       },
     ],
   },
   {
-    id: "auditoria",
+    id: "sistema",
     code: "CAPÍTULO III",
-    title: "3 entrenadores auditando tu proceso en 3 niveles",
-    durationSeconds: 32,
-    startSeconds: 90,
+    title: "Vital Fit Labs: 90 días, 3 pilares y 3 entrenadores",
+    durationSeconds: 59,
+    startSeconds: 97,
     image: "/images/gym-athlete.jpg",
     imageAlt: "Manos con magnesio sujetando una barra de acero moleteado",
     accentColor: "#ffffff",
     beats: [
       {
-        atSeconds: 90,
-        headline: "NIVEL 1: NUTRICIÓN, ENTRENO Y DESCANSO EN LA APP.",
-        caption: "No tendrás un entrenador, tendrás tres auditando tu día a día desde nuestra aplicación.",
-        emphasis: "Control diario de tus pilares.",
+        atSeconds: 97,
+        headline: "PROGRAMA DE TRANSFORMACIÓN DE 90 DÍAS.",
+        caption: "Tres pilares: entrenamiento, recuperación y alimentación, con plataforma tecnológica y acompañamiento de entrenadores.",
+        emphasis: "Vital Fit Labs.",
       },
       {
-        atSeconds: 102,
-        headline: "NIVEL 2 Y 3: BIOMETRÍA SEMANAL Y RECALIBRACIÓN.",
-        caption: "Medimos tu biometría y biomecánica cada semana, y leemos tus indicadores cada mes para recalibrar tu proceso.",
+        atSeconds: 119,
+        headline: "NO TENDRÁS UN ENTRENADOR. TENDRÁS TRES.",
+        caption: "Auditamos tu proceso en 3 niveles: nutrición, entreno y descanso en la app; biometría y técnica cada semana; y recalibración mensual.",
         emphasis: "Para que nunca dejes de avanzar.",
       },
     ],
@@ -98,23 +105,23 @@ export const VSL_CHAPTERS: VslChapter[] = [
   {
     id: "garantia",
     code: "CAPÍTULO IV",
-    title: "Garantía de resultados y tu compromiso de 90 días",
-    durationSeconds: 38,
-    startSeconds: 122,
+    title: "Garantía de resultados: agenda tu llamada",
+    durationSeconds: 32,
+    startSeconds: 156,
     image: "/images/gym-architecture.jpg",
     imageAlt: "Interior arquitectónico de gimnasio boutique con racks y luz natural",
     accentColor: "#00f0ff",
     beats: [
       {
-        atSeconds: 122,
-        headline: "SI CUMPLES EL 90% Y NO VES RESULTADOS, NO PAGAS.",
-        caption: "Te devolvemos tu dinero y te seguimos entrenando gratis hasta que cumplas tus objetivos.",
+        atSeconds: 156,
+        headline: "SI CUMPLES EL 90% Y NO HAY RESULTADOS, TE DEVOLVEMOS TU DINERO.",
+        caption: "Y además te seguimos entrenando gratis hasta que cumplas tus objetivos.",
         emphasis: "Garantía total de resultados.",
       },
       {
-        atSeconds: 142,
+        atSeconds: 173,
         headline: "NOS COMPROMETEMOS 90 DÍAS CONTIGO.",
-        caption: "Si estás cansado del mismo ciclo y quieres resultados reales, agenda tu llamada abajo.",
+        caption: "Buscamos personas cansadas del ciclo que quieran resultados reales. Agenda tu llamada aquí abajo.",
         emphasis: "Nos vemos adentro.",
       },
     ],
@@ -181,7 +188,7 @@ export const HOW_IT_WORKS_STAGES = [
   },
   {
     stage: "Día 90 · Resultado",
-    text: "Transformación física visible y acceso preferente a nuestra sede física con tarifa de fundador congelada.",
+    text: "Transformación física visible y acceso preferente a nuestra próxima sede física.",
     image: "/images/gym-architecture.jpg",
     imageAlt: "Instalación del nuevo gimnasio Vital Fit",
     tileBg: "#000000",
@@ -203,7 +210,7 @@ export const FAQS = [
   {
     question: "¿Cuándo abre exactamente el gimnasio físico de Vital Fit?",
     answer:
-      "Estamos ultimando obra e instalación de racks calibrados para abrir puertas en el próximo trimestre. Al reservar hoy tu Pase Fundador empiezas de inmediato con el protocolo guiado y garantizas tu cupo físico antes de que se agote el aforo inicial.",
+      "Estamos ultimando obra e instalación de racks calibrados para abrir puertas en el próximo trimestre. Agenda tu llamada hoy y empieza de inmediato con el programa de 90 días; los primeros miembros tendrán prioridad cuando abramos la sede.",
   },
   {
     question: "¿Por qué debería funcionar si ya probé otros gimnasios y abandoné?",
@@ -216,13 +223,13 @@ export const FAQS = [
       "No. El diagnóstico inicial calibra el volumen y la técnica a tu punto de partida exacto. Tanto si llevas años sin entrenar como si buscas romper un estancamiento, la progresión se adapta a ti.",
   },
   {
-    question: "¿Qué incluye exactamente el Pase Fundador de $49/mes?",
+    question: "¿Cómo empiezo? ¿Tengo que pagar algo ahora?",
     answer:
-      "Incluye tu evaluación biomecánica y metabólica 1-a-1, programación de fuerza progresiva, plan nutricional adaptable, revisión técnica con coach y tarifa congelada de por vida cuando inauguremos la sede física (sin cuota de inscripción).",
+      "No pagas nada para empezar. Agenda una llamada gratuita con nuestro equipo: conocemos tu caso, tus objetivos y te explicamos cómo funciona el programa de 90 días con sus 3 pilares (entrenamiento, recuperación y alimentación).",
   },
   {
-    question: "¿Qué pasa si en 30 días siento que no es para mí?",
+    question: "¿Qué pasa si sigo el programa y no tengo resultados?",
     answer:
-      "Tienes garantía total de 30 días. Si completas tus sesiones del primer mes y no ves progreso medible en tu fuerza, energía o medidas, nos escribes y devolvemos el 100% de tu pago sin preguntas.",
+      "Si cumples con el 90% del programa y no tienes resultados, no solo te devolvemos tu dinero: te seguimos entrenando gratis hasta que cumplas tus objetivos.",
   },
 ];

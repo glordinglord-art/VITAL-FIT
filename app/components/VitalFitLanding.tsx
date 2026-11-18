@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { FAQS, HOW_IT_WORKS_STAGES, PROOF_NAMES } from "../vsl-data";
+import {
+  FAQS,
+  HOW_IT_WORKS_STAGES,
+  PROOF_NAMES,
+  WHATSAPP_DISPLAY,
+  buildWhatsAppUrl,
+} from "../vsl-data";
 import FounderDialog from "./FounderDialog";
 import {
   AnimatedCounter,
@@ -20,6 +26,13 @@ export default function VitalFitLanding() {
   const handleQuickSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!quickContact.trim()) return;
+    window.open(
+      buildWhatsAppUrl(
+        `Hola Vital Fit 👋 Vi el video y quiero agendar mi llamada. Mi número es ${quickContact.trim()}.`
+      ),
+      "_blank",
+      "noopener,noreferrer"
+    );
     setQuickSent(true);
     setQuickContact("");
   };
@@ -65,14 +78,14 @@ export default function VitalFitLanding() {
               href="#pase-fundador"
               className="hidden sm:inline hover:text-[#00f0ff] transition-colors"
             >
-              Sede Física
+              Agendar
             </a>
             <button
               type="button"
               onClick={() => setDialogOpen(true)}
               className="vf-btn-pro h-11 px-5 bg-[#00f0ff] text-[#000000] font-bold uppercase text-[14px] tracking-wide hover:bg-[#ffffff] cursor-pointer"
             >
-              Reservar
+              Agendar llamada
             </button>
           </div>
         </nav>
@@ -133,9 +146,9 @@ export default function VitalFitLanding() {
                 </div>
                 <div className="lg:col-span-5">
                   <p className="text-[17px] sm:text-[19px] leading-[1.5] text-[#000000]/85">
-                    En 2 minutos y 40 segundos te explicamos qué es Vital Fit, por
-                    qué nuestro protocolo funciona donde otros gimnasios fallan y
-                    cómo asegurar tu acceso de fundador antes de la inauguración.
+                    En 3 minutos te explicamos por qué 8 de cada 10 personas
+                    abandonan el gimnasio, cómo funciona Vital Fit Labs y cómo
+                    agendar tu llamada gratuita.
                   </p>
                 </div>
               </div>
@@ -305,12 +318,12 @@ export default function VitalFitLanding() {
         {/* CHAPTER 6 — Pricing: The ticket (#d2d6d9 field) */}
         <section
           id="pase-fundador"
-          aria-label="Pase Fundador Vital Fit"
+          aria-label="Agenda tu llamada Vital Fit"
           className="min-h-[90svh] bg-[#d2d6d9] text-[#000000] px-5 sm:px-10 py-20 sm:py-28 flex flex-col items-center justify-center"
         >
           <Reveal variant="scale" className="w-full max-w-[1040px]">
             <h2 className="text-[32px] sm:text-[48px] font-bold uppercase leading-[0.92] tracking-[-0.03em] mb-10 text-center">
-              ASEGURA TU PASE FUNDADOR.
+              AGENDA TU LLAMADA GRATIS.
             </h2>
 
             {/* Ticket Grid: 7fr / 3fr on desktop, upright on phone */}
@@ -319,9 +332,9 @@ export default function VitalFitLanding() {
               <div className="relative bg-[#000000] text-[#ffffff] p-7 sm:p-10 flex flex-col justify-between min-h-[260px] lg:min-h-[340px]">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-[9vw] sm:text-[clamp(36px,3.6vw,56px)] font-bold uppercase leading-[0.92] tracking-[-0.03em]">
-                    PASE FUNDADOR
+                    TU LLAMADA
                     <br />
-                    VITAL FIT
+                    VITAL FIT LABS
                   </h3>
                   <Image
                     src="/images/vitalfit-logo.jpg"
@@ -334,14 +347,14 @@ export default function VitalFitLanding() {
 
                 <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 text-[16px] sm:text-[17px] leading-[1.45] text-[#ffffff]/90">
                   <div>
-                    <p>· Arranque inmediato del método</p>
-                    <p>· Evaluación biomecánica 1-a-1</p>
-                    <p>· Nutrición ajustada cada 14 días</p>
+                    <p>· Analizamos tu caso y tus objetivos</p>
+                    <p>· Te explicamos el programa de 90 días</p>
+                    <p>· Entreno, recuperación y alimentación</p>
                   </div>
                   <div>
-                    <p>· Acceso prioritario a sede física</p>
-                    <p>· Tarifa congelada de por vida</p>
-                    <p>· Garantía total de 30 días</p>
+                    <p>· 3 entrenadores auditando tu proceso</p>
+                    <p>· Biometría semanal y recalibración</p>
+                    <p>· Garantía de resultados o no pagas</p>
                   </div>
                 </div>
 
@@ -368,11 +381,19 @@ export default function VitalFitLanding() {
               <div className="relative bg-[#00f0ff] text-[#000000] p-7 sm:p-8 flex flex-col justify-between items-center text-center border-t-4 lg:border-t-0 lg:border-l-4 border-dotted border-[#d2d6d9]">
                 <div className="my-auto py-4">
                   <p className="text-[16vw] lg:text-[clamp(52px,5.2vw,84px)] font-bold leading-[0.88] tracking-[-0.04em] tabular-nums">
-                    <AnimatedCounter target={49} prefix="$" />
+                    GRATIS
                   </p>
                   <p className="mt-2 text-[16px] font-bold uppercase tracking-wider">
-                    POR MES · SIN MATRÍCULA
+                    SIN PAGOS · SIN COMPROMISO
                   </p>
+                  <a
+                    href={buildWhatsAppUrl("Hola Vital Fit, vi el video y quiero agendar mi llamada.")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block text-[17px] font-bold underline tabular-nums"
+                  >
+                    WhatsApp {WHATSAPP_DISPLAY}
+                  </a>
                 </div>
 
                 <button
@@ -380,7 +401,7 @@ export default function VitalFitLanding() {
                   onClick={() => setDialogOpen(true)}
                   className="vf-btn-pro w-full h-14 bg-[#000000] text-[#ffffff] text-[15px] font-bold uppercase tracking-wider hover:bg-[#ffffff] hover:text-[#000000] cursor-pointer"
                 >
-                  QUIERO MI PLAZA
+                  AGENDAR MI LLAMADA
                 </button>
               </div>
             </div>
@@ -419,7 +440,7 @@ export default function VitalFitLanding() {
 
         {/* CHAPTER 8 — CTA: The action tile (#ffffff ground) */}
         <section
-          aria-label="Reserva tu lugar ahora"
+          aria-label="Agenda tu llamada ahora"
           className="bg-[#ffffff] text-[#000000] py-16 sm:py-24 overflow-hidden"
         >
           <div className="grid grid-cols-2 lg:grid-cols-12 gap-3 px-4 sm:px-0">
@@ -441,18 +462,17 @@ export default function VitalFitLanding() {
                 EMPIEZA HOY TU CAMBIO.
               </h2>
               <p className="mt-3 text-[17px] leading-[1.45] max-w-[46ch]">
-                Déjanos tu WhatsApp o correo para enviarte el acceso al método y
-                asegurar tu prioridad en nuestra nueva sede física.
+                Déjanos tu número de WhatsApp y te contactamos para agendar tu
+                llamada. Sin pagos, sin compromiso.
               </p>
 
               {quickSent ? (
                 <div className="mt-6 p-4 bg-[#000000] text-[#ffffff] max-w-[460px]">
                   <p className="font-bold uppercase text-[15px] text-[#00f0ff]">
-                    Recibido. Ya estás en la lista prioritaria.
+                    ¡Listo! Se abrió WhatsApp.
                   </p>
                   <p className="text-[15px] mt-1">
-                    Nuestro equipo te escribirá hoy mismo con los siguientes
-                    pasos.
+                    Presiona enviar y te confirmamos el día y la hora de tu llamada.
                   </p>
                 </div>
               ) : (
@@ -461,22 +481,24 @@ export default function VitalFitLanding() {
                   className="mt-6 flex flex-col sm:flex-row w-full max-w-[480px] bg-[#ffffff]"
                 >
                   <label htmlFor="quick-contact" className="sr-only">
-                    Tu WhatsApp o correo electrónico
+                    Tu número de WhatsApp
                   </label>
                   <input
                     id="quick-contact"
-                    type="text"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
                     required
                     value={quickContact}
                     onChange={(e) => setQuickContact(e.target.value)}
-                    placeholder="Tu WhatsApp o correo..."
+                    placeholder="Tu WhatsApp (+57 300...)"
                     className="flex-1 h-14 px-4 bg-[#ffffff] text-[#000000] text-[16px] placeholder:text-[#5a6065] focus:outline-2 focus:outline-[#000000]"
                   />
                   <button
                     type="submit"
                     className="h-14 px-6 bg-[#000000] text-[#ffffff] font-bold uppercase text-[14px] tracking-wider hover:bg-[#d2d6d9] hover:text-[#000000] transition-colors cursor-pointer shrink-0"
                   >
-                    Solicitar acceso
+                    Agendar llamada
                   </button>
                 </form>
               )}
@@ -564,7 +586,7 @@ export default function VitalFitLanding() {
             <ul className="space-y-1.5 text-[#ffffff]/80">
               <li>
                 <a href="#pase-fundador" className="hover:text-[#ffffff]">
-                  Pase Fundador
+                  Llamada gratis
                 </a>
               </li>
               <li>
@@ -573,7 +595,7 @@ export default function VitalFitLanding() {
                   onClick={() => setDialogOpen(true)}
                   className="hover:text-[#ffffff] cursor-pointer text-left"
                 >
-                  Reservar plaza
+                  Agendar llamada
                 </button>
               </li>
             </ul>
@@ -597,10 +619,15 @@ export default function VitalFitLanding() {
               height={48}
               className="w-11 h-11 object-contain"
             />
-            <p className="font-bold uppercase text-[#ffffff]">
-              hola@vitalfit.club
-            </p>
-            <p>Atención directa a fundadores · Lun a Sáb</p>
+            <a
+              href={buildWhatsAppUrl("Hola Vital Fit, quiero agendar mi llamada.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold uppercase text-[#ffffff] hover:text-[#00f0ff] tabular-nums"
+            >
+              WhatsApp {WHATSAPP_DISPLAY}
+            </a>
+            <p>Agenda tu llamada · Lun a Sáb</p>
           </div>
         </div>
 
